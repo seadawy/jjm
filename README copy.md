@@ -1,0 +1,1 @@
+[react-360-view](for 3d object)
