@@ -16,14 +16,6 @@ class BrandController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -36,18 +28,7 @@ class BrandController extends Controller
      */
     public function show(Brand $Brand)
     {
-        if ($Brand == null) {
-            return response()->json('No data Found', 200);
-        }
         return response()->json($Brand, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Brand $brand)
-    {
-        //
     }
 
     /**

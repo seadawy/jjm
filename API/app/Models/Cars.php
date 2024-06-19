@@ -16,9 +16,6 @@ class Cars extends Model
         'imgArray',
     ];
 
-    /**
-     * The brand that the car belongs to.
-     */
     public function brand()
     {
         return $this->belongsTo(Brand::class);

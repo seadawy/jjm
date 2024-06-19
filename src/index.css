@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    transition: all .7s ease-in-out;
+}
+
 #StoreNavBar a.active {
-    background-color: green;
+    background: radial-gradient(circle, #844fb300 0%, #73d82ac7 100%);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 8px;
+}
+
+nav {
+    background: rgb(132, 79, 179);
+    background: linear-gradient(201deg, rgba(132, 79, 179, 1) 0%, rgba(141, 198, 63, 1) 100%);
+}
+
+.p-skeleton.p-component::after {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(115, 230, 104, 0.7366596296721813) 43%, rgba(255, 255, 255, 0.5718662464985995) 50%, rgba(204, 80, 227, 0.5517856800923495) 56%, rgba(0, 0, 0, 0) 100%);
+}
+
+.dark nav:is(.dark *) {
+    background: rgb(44, 33, 64);
+    background: linear-gradient(201deg, rgb(76, 53, 116) 0%, rgb(76, 116, 23) 100%);
 }

@@ -23,8 +23,8 @@ class CarsFactory extends Factory
         return [
             'model' => $this->faker->word,
             'price' => $this->faker->numberBetween(10000, 50000),
-            'brand_id' => $brandId,  // Create a new Brand and use its ID
-            'imgArray' => json_encode([$this->faker->imageUrl(), $this->faker->imageUrl()]),  // Create an array of image URLs
+            'brand_id' => $brandId,
+            'imgArray' => json_encode([$this->faker->imageUrl(), $this->faker->imageUrl()]),
             'created_at' => now(),
             'updated_at' => now(),
         ];

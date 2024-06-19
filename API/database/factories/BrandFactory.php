@@ -18,8 +18,8 @@ class BrandFactory extends Factory
     public function definition(): array
     {
         return [
-            'brand' => $this->faker->company,  // Generating a fake company name
-            'brand_img' => $this->faker->imageUrl(640, 480, 'business', true),  // Generating a fake image URL
+            'brand' => $this->faker->company,
+            'brand_img' => $this->faker->imageUrl(640, 480, 'business', true),
             'created_at' => now(),
             'updated_at' => now(),
         ];

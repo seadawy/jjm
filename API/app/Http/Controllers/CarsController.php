@@ -12,7 +12,8 @@ class CarsController extends Controller
      */
     public function index()
     {
-        //
+        $cars = Cars::all();
+        return response()->json($cars);
     }
 
     /**
@@ -34,9 +35,10 @@ class CarsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cars $cars)
+    public function show($id)
     {
-        //
+        $car = Cars::with('Brand')->where('id', $id)->get();
+        return response()->json($car, 200);
     }
 
     /**

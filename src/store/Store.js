@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
     Dialog,
     DialogPanel,
@@ -9,17 +9,15 @@ import {
     Transition,
     TransitionChild,
 } from '@headlessui/react'
+import { ProgressSpinner } from 'primereact/progressspinner';
 import StoreBrandFilter from './component/StoreBrandFilter'
+import CarsGraid from './component/CarsGraid'
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
     { name: 'Newest', href: '#', current: false },
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
 ]
-
-const Brands = [
-    { "id": 1, "brand": "Toyota" }, { "id": 2, "brand": "Ford" }, { "id": 3, "brand": "BMW" }, { "id": 4, "brand": "Hyundai" }, { "id": 5, "brand": "Honda" }, { "id": 6, "brand": "Chevrolet" }, { "id": 7, "brand": "Nissan" }, { "id": 8, "brand": "Volkswagen" }, { "id": 9, "brand": "Mercedes-Benz" }, { "id": 10, "brand": "Audi" }
-];
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -28,6 +26,33 @@ function classNames(...classes) {
 export default function Store() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [numberOfItems, setNumberOfItems] = useState(0);
+    const [Brands, setBrands] = useState([]);
+    const [cars, setCars] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const fetchCars = (page) => {
+        fetch(`http://192.168.1.7/jjm/API/public/api/Cars`)
+            .then(res => {
+                return res.json();
+            }).then((data) => {
+                const carsWithImages = data.map(car => ({
+                    ...car,
+                    images: JSON.parse(car.imgArray)
+                }));
+                setNumberOfItems(carsWithImages.length)
+                setCars(carsWithImages);
+                setIsLoading(false);
+
+            }).catch((error) => { console.error('Error fetching cars:', error); })
+    };
+    useEffect(() => {
+        fetchCars();
+        fetch('http://192.168.1.7/jjm/API/public/api/Brands')
+            .then(response => response.json())
+            .then(data => {
+                setBrands(data);
+            })
+            .catch(error => console.error('Error fetching brands:', error));
+    }, [])
     return (
         <div>
             {/* Mobile filter dialog */}
@@ -68,7 +93,7 @@ export default function Store() {
 
                                 {/* Filters */}
                                 <form className="mt-4 border-t border-gray-200">
-
+                                    <StoreBrandFilter type="Brands" values={Brands}></StoreBrandFilter>
                                 </form>
                             </DialogPanel>
                         </TransitionChild>
@@ -78,14 +103,13 @@ export default function Store() {
 
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
-                    <h1 className="text-lg sm:text-4xl font-bold tracking-tight text-gray-900 flex items-center">
+                    <h1 className="text-lg sm:text-4xl font-bold tracking-tight text-gray-900 flex items-center dark:text-white">
                         Avaliable Cars <span className="text-sm bg-red-500 rounded-full px-2 mx-3 text-white">{numberOfItems}</span>
                     </h1>
-
                     <div className="flex items-center">
-                        <Menu as="div" className="relative inline-block text-left">
+                        <Menu as="div" className="relative inline-block text-left z-20">
                             <div>
-                                <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-gray-900">
                                     Sort
                                     <i
                                         className="pi pi-angle-down -mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -102,7 +126,7 @@ export default function Store() {
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <MenuItems className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <MenuItems className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-slate-700  shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
                                         {sortOptions.map((option) => (
                                             <MenuItem key={option.name}>
@@ -110,8 +134,8 @@ export default function Store() {
                                                     <a
                                                         href={option.href}
                                                         className={classNames(
-                                                            option.current ? 'font-medium text-gray-900' : 'text-gray-500',
-                                                            focus ? 'bg-gray-100' : '',
+                                                            option.current ? 'font-medium text-gray-900 dark:text-gray-50' : 'text-gray-500 dark:text-gray-400',
+                                                            focus ? 'bg-gray-100 dark:hover:text-gray-500' : '',
                                                             'block px-4 py-2 text-sm'
                                                         )}
                                                     >
@@ -148,7 +172,23 @@ export default function Store() {
                         </form>
 
                         {/* Product grid */}
-                        <div className="lg:col-span-3">{/* Your content */}</div>
+                        <div className="lg:col-span-3">
+                            <div className="container">
+                                <div class="bg-gray-100 rounded dark:bg-slate-700 sticky top-0 z-10 p-4">
+                                    <input type="text"
+                                        className="pl-10 pr-4 py-2 w-full border rounded focus:outline-none focus:ring-2
+                                        dark:bg-slate-600 dark:text-white dark:placeholder:text-white  focus:ring-purple-200"
+                                        placeholder="Search"
+                                    />
+                                    <div class="absolute inset-y-0 left-0 pl-8 dark:text-white flex items-center pointer-events-none">
+                                        <i className='pi pi-search'></i>
+                                    </div>
+                                </div>
+                                {isLoading ?
+                                    <ProgressSpinner style={{ width: '50px', height: '50px',color:'red' ,fill:'red'}} strokeWidth="8" animationDuration=".5s" />
+                                    :<CarsGraid cars={cars}></CarsGraid>}
+                            </div>
+                        </div>
                     </div>
                 </section>
             </main>
