@@ -17,24 +17,27 @@ const CarImage = ({ src, alt }) => {
                 onLoad={handleImageLoad}
             />
         </div>
-
     )
 }
 
 const CarsGrid = ({ cars }) => {
     return (
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6 animate-fadeIn">
             {cars.map((car) => (
-                <div key={car.id} className="group relative hover:bg-gray-100 dark:hover:bg-gray-700  pb-4 rounded-md">
+                <div key={car.id} className="group relative hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-[1.05] hover:shadow-lg pb-4 rounded-md">
                     <CarImage src={car.images[0]} alt={car.model}></CarImage>
                     <div className="mt-4 flex justify-between px-3">
                         <div>
-                            <h3 className="text-sm text-gray-700 dark:text-white">
+                            <h3 className="text-2xl text-start text-gray-700 dark:text-white">
                                 <Link to={`Store/Car/${car.id}`}>
                                     <span aria-hidden="true" className="absolute inset-0" />
                                     {car.model}
+                                    <h2 className="text-sm text-gray-700 dark:text-white">
+                                        {car.brand.brand}
+                                    </h2>
                                 </Link>
                             </h3>
+
                         </div>
                         <p className="text-sm font-medium text-gray-900  dark:text-white">{car.price}$</p>
                     </div>

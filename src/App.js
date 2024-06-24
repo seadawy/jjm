@@ -16,6 +16,9 @@ function App() {
           <Route exact path='/Store'>
             <Store></Store>
           </Route>
+          <Route path="/Store/Brand/:id">
+            <Store />
+          </Route>
           <Route path="/Store/Car/:id">
             <CarDetails></CarDetails>
           </Route>

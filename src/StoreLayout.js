@@ -11,7 +11,7 @@ const StoreLayout = ({ children }) => {
 
     return (
         <>
-            <ScrollTop className='bg-[#855ba8] p-3 rounded-full text-white' />
+            <ScrollTop className='bg-[#855ba8] p-3 rounded-md text-white' />
             <nav className="flex flex-col md:flex-row justify-between items-center p-2 shadow-lg" id="StoreNavBar">
                 <div className='flex justify-between sm:justify-center md:justify-between items-center w-full'>
                     <div className="md:ms-12 p-2">

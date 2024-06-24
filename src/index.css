@@ -25,3 +25,11 @@ nav {
     background: rgb(44, 33, 64);
     background: linear-gradient(201deg, rgb(76, 53, 116) 0%, rgb(76, 116, 23) 100%);
 }
+
+.DiscordHero {
+    transition: background-image 1s ease-in-out;
+}
+
+.brandLink:hover {
+    background: radial-gradient(circle, #844fb300 0%, #73d82ac7 100%) !important;
+}

@@ -33,15 +33,15 @@ const NavLinksCompoenet = () => {
                 Partners
             </NavLink>
             <div className='md:me-10 flex gap-4 mx-4 my-2 sm:m-0'>
-                <a className={`${LinkStyle} border-2`} href='https://discord.com/invite/7XkQjJY8pG' target='_blank' rel="noopener noreferrer">
-                    <i className='pi pi-discord'></i>
-                </a>
                 <button
                     onClick={() => setDarkMode(!darkMode)}
                     className={`${LinkStyle} border-2`}
                 >
                     {darkMode ? '🌜' : '🌞'}
                 </button>
+                <a className={`${LinkStyle} border-2`} href='https://discord.com/invite/7XkQjJY8pG' target='_blank' rel="noopener noreferrer">
+                    <i className='pi pi-discord'></i>
+                </a>
             </div>
         </>
     );

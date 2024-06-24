@@ -10,18 +10,22 @@ class CarsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Cars::all();
+        $query = Cars::with('brand');
+        if ($request->has('brand') && $request->brand != '') {
+            $brandIds = explode(',', $request->brand);
+            $query->whereIn('brand_id', $brandIds);
+        }
+        $cars = $query->paginate(12);
+        $cars->appends(['brand' => $request->brand]);
         return response()->json($cars);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function search($query)
     {
-        //
+        $cars = Cars::with('brand')->where('model', 'LIKE', "%{$query}%")->paginate(12);
+        return response()->json($cars, 200);
     }
 
     /**

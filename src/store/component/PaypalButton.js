@@ -10,7 +10,7 @@ const PayPalButton = () => {
 
     return (
         <button
-            className="bg-yellow-500 text-black font-bold 
+            className="bg-yellow-500 text-black font-bold my-5
             py-3 px-4 rounded-full hover:bg-yellow-600 dark:text-gray-800"
         >
             Pay with PayPal
