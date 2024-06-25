@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 const Home = () => {
     const [brands, setBrands] = useState();
     useEffect(() => {
-        fetch('http://192.168.1.7/jjm/API/public/api/Brands').then((res) => res.json()).then((data) => {
+        fetch('https://jjmtemp.wuaze.com/api/Brands').then((res) => res.json()).then((data) => {
             setBrands(data);
         });
     }, []);

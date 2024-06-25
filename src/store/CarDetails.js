@@ -17,7 +17,7 @@ const CarDetails = () => {
         setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     };
     useEffect(() => {
-        fetch(`http://192.168.1.7/jjm/API/public/api/Cars/${id}`)
+        fetch(`https://jjmtemp.wuaze.com/api/Cars/${id}`)
             .then((res) => { return res.json() })
             .then((data) => {
                 setCar(data[0]);

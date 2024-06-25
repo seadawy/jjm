@@ -21,7 +21,7 @@ export default function Store() {
     const [numberOfItems, setNumberOfItems] = useState(0);
     const [cars, setCars] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [page, setPage] = useState(`http://192.168.1.7/jjm/API/public/api/Cars`);
+    const [page, setPage] = useState(`https://jjmtemp.wuaze.com/api/Cars`);
     const [paginateLinks, setPaginateLinks] = useState([]);
     const [brandsFilter, setBrandFilter] = useState([])
     const fetchCars = (page) => {
@@ -45,7 +45,7 @@ export default function Store() {
         if (query == '') {
             fetchCars(page);
         } else {
-            fetchCars(`http://192.168.1.7/jjm/API/public/api/Cars/Search/${query}`);
+            fetchCars(`https://jjmtemp.wuaze.com/api/Cars/Search/${query}`);
         }
     }
     const fetchPaginate = (page) => {
@@ -66,7 +66,7 @@ export default function Store() {
     }, [page])
 
     useEffect(() => {
-        const filter = 'http://192.168.1.7/jjm/API/public/api/Cars?brand=' + brandsFilter.join(',');
+        const filter = 'https://jjmtemp.wuaze.com/api/Cars?brand=' + brandsFilter.join(',');
         fetchCars(filter);
     }, [brandsFilter]);
 
