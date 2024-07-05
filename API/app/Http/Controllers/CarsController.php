@@ -33,7 +33,37 @@ class CarsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'model' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'brand' => 'required|exists:brands,id',
+            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
+        ]);
+
+        // Array to store image paths
+        $imagePaths = [];
+
+        // Handle file uploads
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('car_photos', 'public');
+                $imagePaths[] = $path;
+            }
+        }
+
+        // Create a new Car entry
+        $car = new Cars();
+        $car->model = $request->input('model');
+        $car->price = $request->input('price');
+        $car->brand_id = $request->input('brand');
+        $car->imgArray = json_encode($imagePaths);
+        $car->save();
+
+        return response()->json([
+            'message' => 'Car added successfully!',
+            'car' => $car
+        ], 201);
     }
 
     /**

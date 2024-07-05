@@ -11,7 +11,7 @@ const CarImage = ({ src, alt }) => {
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
             {isLoading && <Skeleton height="100%"></Skeleton>}
             <img
-                src={src}
+                src={`http://192.168.1.15/jjm/API/public/storage/${src}`}
                 alt={alt}
                 className={`h-full w-full object-cover object-center lg:h-full lg:w-full ${isLoading ? 'hidden' : 'block'}`}
                 onLoad={handleImageLoad}
@@ -20,7 +20,7 @@ const CarImage = ({ src, alt }) => {
     )
 }
 
-const CarsGrid = ({ cars }) => {
+const CarsGrid = ({ path, cars }) => {
     return (
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6 animate-fadeIn">
             {cars.map((car) => (
@@ -29,7 +29,7 @@ const CarsGrid = ({ cars }) => {
                     <div className="mt-4 flex justify-between px-3">
                         <div>
                             <h3 className="text-2xl text-start text-gray-700 dark:text-white">
-                                <Link to={`Store/Car/${car.id}`}>
+                                <Link to={`${path}${car.id}`}>
                                     <span aria-hidden="true" className="absolute inset-0" />
                                     {car.model}
                                     <h2 className="text-sm text-gray-700 dark:text-white">
@@ -37,7 +37,6 @@ const CarsGrid = ({ cars }) => {
                                     </h2>
                                 </Link>
                             </h3>
-
                         </div>
                         <p className="text-sm font-medium text-gray-900  dark:text-white">{car.price}$</p>
                     </div>

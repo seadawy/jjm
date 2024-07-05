@@ -1,78 +1,35 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react';
 import {
     Dialog,
     DialogPanel,
     Transition,
     TransitionChild,
-} from '@headlessui/react'
+} from '@headlessui/react';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import StoreBrandFilter from './component/StoreBrandFilter'
-import CarsGraid from './component/CarsGraid'
+import StoreBrandFilter from './component/StoreBrandFilter';
+import CarsGraid from '../shared/CarsGraidComponent';
 import Paginator from './component/Paginator';
+import useFetchCarsHook from '../shared/useFetchCarsHook';
+
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
     { name: 'Newest', href: '#', current: false },
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
-]
+];
 
-export default function Store() {
-    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-    const [numberOfItems, setNumberOfItems] = useState(0);
-    const [cars, setCars] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [page, setPage] = useState(`https://jjmtemp.wuaze.com/api/Cars`);
-    const [paginateLinks, setPaginateLinks] = useState([]);
-    const [brandsFilter, setBrandFilter] = useState([])
-    const fetchCars = (page) => {
-        setIsLoading(true);
-        fetch(page)
-            .then(res => {
-                return res.json();
-            }).then((data) => {
-                const carsWithImages = data.data.map(car => ({
-                    ...car,
-                    images: JSON.parse(car.imgArray)
-                }));
-                setNumberOfItems(data.total)
-                setCars(carsWithImages);
-                setIsLoading(false);
-                setPaginateLinks(data.links);
-            }).catch((error) => { console.error('Error fetching cars:', error); });
-        return cars;
-    };
-    const fetchSearch = (query) => {
-        if (query == '') {
-            fetchCars(page);
-        } else {
-            fetchCars(`https://jjmtemp.wuaze.com/api/Cars/Search/${query}`);
-        }
-    }
-    const fetchPaginate = (page) => {
-        fetchCars(page)
-        setPage(page);
-    }
-    const fetchFilter = (brandId) => {
-        setBrandFilter((prevFilters) => {
-            const newFilters = prevFilters.includes(brandId)
-                ? prevFilters.filter((id) => id !== brandId)
-                : [...prevFilters, brandId];
-            return newFilters;
-        });
-    }
-
-    useEffect(() => {
-        fetchCars(page);
-    }, [page])
-
-    useEffect(() => {
-        const filter = 'https://jjmtemp.wuaze.com/api/Cars?brand=' + brandsFilter.join(',');
-        fetchCars(filter);
-    }, [brandsFilter]);
-
-
-
-
+export default function Store({ pathParent = "/Store/Car/" }) {
+    const initialPage = 'http://192.168.1.15/jjm/API/public/api/Cars';
+    const {
+        cars,
+        isLoading,
+        numberOfItems,
+        paginateLinks,
+        fetchSearch,
+        fetchPaginate,
+        fetchFilter,
+    } = useFetchCarsHook(initialPage);
+    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
     return (
         <div>
@@ -113,7 +70,7 @@ export default function Store() {
                                 </div>
 
                                 {/* Filters */}
-                                <form className="mt-4 border-gray-200 mx-2">
+                                <form className="mt-4 border-gray-100 mx-2">
                                     <StoreBrandFilter fetchFilter={fetchFilter}></StoreBrandFilter>
                                 </form>
                             </DialogPanel>
@@ -166,7 +123,7 @@ export default function Store() {
                             <center>
                                 {isLoading ?
                                     <ProgressSpinner style={{ width: '50px', height: '50px', marginTop: '17px' }} strokeWidth="8" animationDuration=".7s" />
-                                    : (<CarsGraid cars={cars}></CarsGraid>)
+                                    : (<CarsGraid cars={cars} path={pathParent}></CarsGraid>)
                                 }
                                 <br />
                                 {!isLoading && !!(cars.length) && <Paginator links={paginateLinks} pageChange={fetchPaginate}></Paginator>}
@@ -180,5 +137,5 @@ export default function Store() {
                 </section>
             </main>
         </div>
-    )
+    );
 }

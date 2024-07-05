@@ -1,13 +1,12 @@
 import { Button } from 'primereact/button';
-import BrandComponent from './component/BrandComponent'
-
+import BrandView from './component/BrandView'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Home = () => {
     const [brands, setBrands] = useState();
     useEffect(() => {
-        fetch('https://jjmtemp.wuaze.com/api/Brands').then((res) => res.json()).then((data) => {
+        fetch('http://192.168.1.15/jjm/API/public/api/Brands').then((res) => res.json()).then((data) => {
             setBrands(data);
         });
     }, []);
@@ -23,27 +22,27 @@ const Home = () => {
         </div>
         <hr />
         {/* Statics */}
-        <div class="bg-white sm:py-9">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
+        <div class="bg-white dark:bg-slate-500 sm:py-9 ">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8 dark:text-white">
+                <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3 dark:text-white">
                     <div class="border-4 border-slate-800 py-6 px-12 shadow-2xl rounded-md mx-auto flex max-w-xs flex-col gap-y-4 hover:bg-slate-800 hover:text-white group">
-                        <dt class="text-base leading-7 text-gray-600 group-hover:text-white">Successful Sale</dt>
-                        <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 dark:group-hover:text-white sm:text-5xl">2k</dd>
+                        <dt class="text-base leading-7 text-gray-600 dark:text-white group-hover:text-white">Successful Sale</dt>
+                        <dd class="order-first text-3xl font-semibold dark:text-white tracking-tight text-gray-900 dark:group-hover:text-white sm:text-5xl">2k</dd>
                     </div>
                     <div class="border-4 border-slate-800 w-52 py-6 px-12 shadow-2xl rounded-md mx-auto flex max-w-xs flex-col gap-y-4 hover:bg-slate-800 hover:text-white group">
-                        <dt class="text-base leading-7 text-gray-600 group-hover:text-white">Car Avaliable</dt>
-                        <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 dark:group-hover:text-white sm:text-5xl">200</dd>
+                        <dt class="text-base leading-7 text-gray-600 dark:text-white group-hover:text-white">Car Avaliable</dt>
+                        <dd class="order-first text-3xl font-semibold dark:text-white  tracking-tight text-gray-900 dark:group-hover:text-white sm:text-5xl">200</dd>
                     </div>
                     <div class="border-4 border-slate-800 py-6 px-12 shadow-2xl rounded-md mx-auto flex max-w-xs flex-col gap-y-4 hover:bg-slate-800 hover:text-white group">
-                        <dt class="text-base leading-7 text-gray-600 group-hover:text-white">Brand Avaliable</dt>
-                        <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 dark:group-hover:text-white sm:text-5xl">12</dd>
+                        <dt class="text-base leading-7 text-gray-600 dark:text-white group-hover:text-white">Brand Avaliable</dt>
+                        <dd class="order-first text-3xl font-semibold dark:text-white tracking-tight text-gray-900 dark:group-hover:text-white sm:text-5xl">12</dd>
                     </div>
                 </dl>
             </div>
         </div>
         <hr />
         {/* Feature */}
-        <div class="bg-white dark:bg-slate-800 py-24 sm:py-26">
+        <div class="bg-gray-100 dark:bg-slate-600 py-24 sm:py-26 divide-y divide-dashed hover:divide-solid">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl lg:text-center">
                     <h2 class="text-3xl py-4 font-semibold leading-7 text-indigo-600">Our Features</h2>
@@ -63,6 +62,11 @@ const Home = () => {
                             </dt>
                             <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-400">
                                 Elevate your FiveM server with our meticulously crafted, high-quality cars. Enjoy superior performance and stunning visuals.
+                                <br />
+                                <button className='bg-indigo-600 rounded-md px-2 flex items-center mt-2 gap-3 p-1 text-white'>
+                                    Shop Now
+                                    <i className='pi pi-arrow-right'></i>
+                                </button>
                             </dd>
                         </div>
                         <div class="relative pl-16">
@@ -80,17 +84,9 @@ const Home = () => {
                 </div>
             </div>
         </div>
-        {/* Brands */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-            {brands && brands.map((brand) => (
-                <Link to={`/Store/Brand/${brand.id}`}>
-                    <BrandComponent
-                        key={brand.id}
-                        logo={brand.brand_img}
-                        name={brand.brand}
-                    />
-                </Link>
-            ))}
+        <div className='text-center flex sm:flex-row flex-col justify-between gap-2 dark:text-gray-400 p-6 font-sans font-bold px-5 '>
+            <p >Copyright © 2024 JJM Mods - All Rights Reserved.</p>
+            <p className='sm:me-14'>Additional Support In Discord</p>
         </div>
     </>);
 }
