@@ -1,21 +1,75 @@
 import React from 'react';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const PayPalButton = () => {
-    /*  { amount, description }    const handlePayPalClick = () => {
-            const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=YOUR_PAYPAL_EMAIL&item_name=${description}&amount=${amount}&currency_code=USD`;
-            window.open(paypalUrl, '_blank');
-             onClick={handlePayPalClick}
+const PayPalButton = ({ car }) => {
+    const initialOptions = {
+        clientId: "Acl4VCIgVWEzFRsyzPfn_JQXXzAueAtM9l5u5HRntB2z1OxQw0326TwpxlTeCbMkPyAr50HcvDQxex2D",
+        intent: "capture",
+        currency: "USD",
+    };
 
-            }; */
+    const createOrder = () => {
+        return fetch('http://localhost/jjm/API/public/api/create-paypal-order', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                model: car.model,
+                price: car.price
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                return data.id;  // Return the order ID to PayPal Buttons
+            })
+            .catch(error => {
+                console.error("Error creating PayPal order:", error);
+                throw error;
+            });
+    };
 
+    const onApprove = (data, actions) => {
+        return fetch('http://localhost/jjm/API/public/api/capture-paypal-order', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                token: data.orderID  // Pass the order ID as the token
+            }),
+        })
+            .then(res => res.json())
+            .then(details => {
+                if (details.error) {
+                    throw new Error(details.error);
+                }
+                alert('Transaction funds captured from ' + details.payer.name.given_name);
+            })
+            .catch(error => {
+                console.error("Error capturing PayPal order:", error);
+            });
+    };
     return (
-        <button
-            className="bg-yellow-500 text-black font-bold my-5
-            py-3 px-4 rounded-full hover:bg-yellow-600 dark:text-gray-800"
-        >
-            Pay with PayPal
-            <i className='pi pi-paypal ms-2'></i>
-        </button>
+
+        <>
+            <PayPalScriptProvider options={initialOptions}>
+                <PayPalButtons
+                    style={{
+                        shape: "pill",
+                        layout: "horizontal",
+                        color: "gold",
+                        label: "paypal",
+                        tagline: false
+                    }}
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                />
+            </PayPalScriptProvider>
+        </>
     );
 };
 

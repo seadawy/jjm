@@ -67,7 +67,7 @@ const CarDetails = () => {
                     <h1 className="sm:text-[50px] text-[28px] font-bold dark:text-white">{car && car.model}</h1>
                     <h3 className="dark:text-white">{car && car.price}$</h3>
                     <br />
-                    <PayPalButton></PayPalButton>
+                    {car && <PayPalButton car={car}></PayPalButton>}
                     <ShareButton url={window.location.href} title={car && car.model}></ShareButton>
                 </div>
             </div>
