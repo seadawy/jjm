@@ -24,7 +24,7 @@ const PayPalButton = ({ car }) => {
                 if (data.error) {
                     throw new Error(data.error);
                 }
-                return data.id;  // Return the order ID to PayPal Buttons
+                return data.id;
             })
             .catch(error => {
                 console.error("Error creating PayPal order:", error);
@@ -39,7 +39,7 @@ const PayPalButton = ({ car }) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                token: data.orderID  // Pass the order ID as the token
+                token: data.orderID
             }),
         })
             .then(res => res.json())
@@ -53,8 +53,17 @@ const PayPalButton = ({ car }) => {
                 console.error("Error capturing PayPal order:", error);
             });
     };
-    return (
 
+    const onCancel = (data) => {
+        alert('Payment cancelled');
+        console.log('Payment was cancelled!', data);
+    };
+
+    const onError = (err) => {
+        alert('An error occurred during the transaction');
+        console.log('Error:', err);
+    };
+    return (
         <>
             <PayPalScriptProvider options={initialOptions}>
                 <PayPalButtons
@@ -67,6 +76,8 @@ const PayPalButton = ({ car }) => {
                     }}
                     createOrder={createOrder}
                     onApprove={onApprove}
+                    onCancel={onCancel}
+                    onError={onError}
                 />
             </PayPalScriptProvider>
         </>

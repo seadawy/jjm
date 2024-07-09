@@ -50,10 +50,7 @@ class PaypalController extends Controller
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
-        return response()->json($response, 200);
-
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-
             return response()->json(['message' => 'Transaction completed successfully'], 200);
         } else {
             return response()->json(['error' => 'Transaction not completed'], 500);
