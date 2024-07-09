@@ -7,6 +7,7 @@ import Home from "./store/Home";
 import AdminLayout from "./AdminLayout";
 import Login from "./admin/Login";
 import CarsForm from "./admin/CarsForm";
+import CarsEdit from "./admin/CarsEdit";
 function App() {
   return (
     <Router>
@@ -27,7 +28,7 @@ function App() {
               <CarsForm></CarsForm>
             </Route>
             <Route path="/Admin/Car/Edit/:id">
-
+              <CarsEdit></CarsEdit>
             </Route>
           </AdminLayout>
         </Route>

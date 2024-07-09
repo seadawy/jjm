@@ -6,6 +6,7 @@ use App\Models\Cars;
 use App\Models\Downloads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class CarsController extends Controller
 {
@@ -63,7 +64,6 @@ class CarsController extends Controller
         return response()->json([
             'message' => 'Car added successfully!',
             'link' => 'Link has been crypted successfully!',
-            'car' => $car
         ], 201);
     }
 
@@ -72,7 +72,10 @@ class CarsController extends Controller
      */
     public function show($id)
     {
-        $car = Cars::with('Brand')->where('id', $id)->get();
+        $car = Cars::with('Brand')->where('id', $id)->first();
+        if (empty($car)) {
+            return response()->json(['error' => 'The car link you asked for is not available'], 500);
+        }
         return response()->json($car, 200);
     }
     /**
@@ -137,8 +140,27 @@ class CarsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cars $cars)
+    public function destroy($id)
     {
-        //
+        try {
+            $car = Cars::findOrFail($id);
+            $imagePaths = json_decode($car->imgArray, true);
+            foreach ($imagePaths as $path) {
+                Storage::disk('public')->delete($path);
+            }
+            $download = Downloads::where('car_id', $id)->first();
+            if (isset($download)) {
+                $download->delete();
+            }
+            $car->delete();
+            return response()->json([
+                'message' => 'Car deleted successfully!'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to delete the car.',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 }

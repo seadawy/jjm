@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ScrollTop } from 'primereact/scrolltop';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import NavLinksComponent from './shared/NavbarComponent';
