@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Dropzone from 'react-dropzone';
-import Notification from "../shared/Notification";
 
 const CarsForm = () => {
     const labelcss = 'dark:text-white text-xl font-medium ms-1';
@@ -9,9 +8,6 @@ const CarsForm = () => {
     const [price, setPrice] = useState('');
     const [selectedBrand, setSelectedBrand] = useState('');
     const [files, setFiles] = useState([]);
-    const [link, setLink] = useState([]);
-    const [notifi, setNotifi] = useState();
-    const [notifiType, setNotifiType] = useState();
 
     useEffect(() => {
         fetch('http://192.168.1.15/jjm/API/public/api/Brands')
@@ -38,7 +34,6 @@ const CarsForm = () => {
         setFiles([]);
         setModel('');
         setPrice('');
-        setLink('');
         setSelectedBrand('');
     }
 
@@ -53,7 +48,6 @@ const CarsForm = () => {
         formData.append('model', model);
         formData.append('price', price);
         formData.append('brand', selectedBrand);
-        formData.append('link', link);
         files.forEach((file) => {
             formData.append('files[]', file.file);
         });
@@ -66,8 +60,7 @@ const CarsForm = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setNotifi([data.message, data.link]);
-                setNotifiType("accept");
+                console.log('Car added successfully:', data);
                 reset();
             } else {
                 console.error('Error uploading data');
@@ -151,7 +144,7 @@ const CarsForm = () => {
                         )}
                     </Dropzone>
                     <div className="flex gap-3 flex-wrap dark:bg-slate-700 p-3 rounded shadow-md">
-                        {files.length === 0 ? (<h1 className="text-center dark:text-white"> images required</h1>) : ""}
+                        {files.length == 0 ? (<h1 className="text-center dark:text-white"> images required</h1>) : ""}
                         {files.map((img, index) => (
                             <div key={index} className="relative">
                                 <button onClick={() => delImage(index)} type="button"
@@ -163,23 +156,11 @@ const CarsForm = () => {
                         ))}
                     </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="link" className={labelcss}>Download Link</label>
-                    <input
-                        type="text"
-                        className="form-input rounded shadow"
-                        id="link"
-                        value={link}
-                        onChange={(e) => setLink(e.target.value)}
-                        required
-                    />
-                </div>
                 <div className="flex gap-5 mt-2 justify-end">
                     <input type="reset" onClick={reset} className="text-white bg-red-500 px-3 py-2 rounded shadow-md hover:bg-red-600" />
                     <input type="submit" className="text-white bg-indigo-600 px-5 py-2 rounded shadow-md hover:bg-indigo-500" />
                 </div>
-                {notifi && <Notification type={notifiType} message={notifi}></Notification>}
-            </form>
+            </form >
         </>
     );
 }
