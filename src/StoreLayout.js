@@ -18,7 +18,7 @@ const StoreLayout = ({ children }) => {
                     Store
                 </NavLink>
 
-                <NavLink className={LinkStyle} to="/About">
+                <NavLink className={LinkStyle} to="/Admin/Car/View">
                     <i className='pi pi-bullseye'></i>
                     Partners
                 </NavLink>
