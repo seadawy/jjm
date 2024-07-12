@@ -32,14 +32,14 @@ const CarsEdit = () => {
                 }
             })
             .then((data) => {
-                setModel(data[0].model)
-                setPrice(data[0].price)
-                setSelectedBrand(data[0].brand_id)
-                setLink(data[0].model);
-                setFiles(JSON.parse(data[0].imgArray));
+                setModel(data.model)
+                setPrice(data.price)
+                setSelectedBrand(data.brand_id)
+                setLink(data.model);
+                setFiles(JSON.parse(data.imgArray));
             })
             .catch((err) => {
-                
+
             });
     }, [flink]);
 
@@ -72,15 +72,15 @@ const CarsEdit = () => {
         });
 
         try {
-            const response = await fetch('http://192.168.1.15/jjm/API/public/api/Cars', {
-                method: 'POST',
+            const response = await fetch(flink, {
+                method: 'PUT',
                 body: formData
             });
 
             if (response.ok) {
                 const data = await response.json();
                 setNotifiType('accept');
-                setNotifi('Car edit successfully');
+                setNotifi([data.message, data.link]);
             } else {
                 console.error('Error uploading data');
             }
@@ -106,8 +106,8 @@ const CarsEdit = () => {
     return (
         <>
             <div className="mb-5 border-b-2 pb-2">
-                <h2 className="dark:text-white text-5xl mb-3">Add Car</h2>
-                <h3 className="text-gray-400">Admin/Cars/Add</h3>
+                <h2 className="dark:text-white font-medium text-5xl mb-3">Edit Car</h2>
+                <h3 className="text-gray-400 font-medium">Admin/Cars/<span className="font-bold">Edit</span></h3>
             </div>
             <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
                 <div className="flex gap-5">

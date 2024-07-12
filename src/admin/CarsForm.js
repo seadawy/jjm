@@ -80,8 +80,8 @@ const CarsForm = () => {
     return (
         <>
             <div className="mb-5 border-b-2 pb-2">
-                <h2 className="dark:text-white text-5xl mb-3">Add Car</h2>
-                <h3 className="text-gray-400">Admin/Cars/Add</h3>
+            <h2 className="dark:text-white font-medium text-5xl mb-3">Add Car</h2>
+            <h3 className="text-gray-400 font-medium">Admin/Cars/<span className="font-bold">Add</span></h3>
             </div>
             <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
                 <div className="flex gap-5">
