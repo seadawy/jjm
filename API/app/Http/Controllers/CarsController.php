@@ -35,36 +35,41 @@ class CarsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'model' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'brand' => 'required|exists:brands,id',
-            'link' => 'required|string',
-            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
-        ]);
-        $imagePaths = [];
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $path = $file->store('car_photos', 'public');
-                $imagePaths[] = $path;
-            }
-        }
-        $car = new Cars();
-        $car->model = $request->input('model');
-        $car->price = $request->input('price');
-        $car->brand_id = $request->input('brand');
-        $car->imgArray = json_encode($imagePaths);
-        $car->save();
+        try {
 
-        $download = new Downloads();
-        $download->car_id = $car->id;
-        $download->link = Crypt::encryptString($request->input('link'));
-        $download->save();
-        return response()->json([
-            'message' => 'Car added successfully!',
-            'link' => 'Link has been crypted successfully!',
-            'car' => $car
-        ], 201);
+            $request->validate([
+                'model' => 'required|string|max:255',
+                'price' => 'required|numeric',
+                'brand' => 'required|exists:brands,id',
+                'link' => 'required|string',
+                'files.*' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
+            ]);
+            $imagePaths = [];
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    $path = $file->store('car_photos', 'public');
+                    $imagePaths[] = $path;
+                }
+            }
+            $car = new Cars();
+            $car->model = $request->input('model');
+            $car->price = $request->input('price');
+            $car->brand_id = $request->input('brand');
+            $car->imgArray = json_encode($imagePaths);
+            $car->save();
+
+            $download = new Downloads();
+            $download->car_id = $car->id;
+            $download->link = Crypt::encryptString($request->input('link'));
+            $download->save();
+            return response()->json([
+                'message' => 'Car added successfully!',
+                'link' => 'Link has been crypted successfully!',
+                'car' => $car
+            ], 201);
+        } catch (\Exception $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
     }
 
     /**
