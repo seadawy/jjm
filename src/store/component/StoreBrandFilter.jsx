@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const StoreBrandFilter = ({ fetchFilter }) => {
     const [values, setValues] = useState([]);
     useEffect(() => {
-        fetch('http://192.168.1.15/jjm/API/public/api/Brands')
+        fetch('/api/Brands')
             .then(response => response.json())
             .then(data => {
                 setValues(data);

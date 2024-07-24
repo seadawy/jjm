@@ -19,7 +19,7 @@ const sortOptions = [
 ];
 
 export default function Store({ pathParent = "/Store/Car/" }) {
-    const initialPage = 'http://192.168.1.15/jjm/API/public/api/Cars';
+    const initialPage = '/api/Cars';
     const {
         cars,
         isLoading,

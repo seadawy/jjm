@@ -32,7 +32,7 @@ const useFetchCarsHook = (initialPage) => {
         if (query === '') {
             fetchCars(page);
         } else {
-            fetchCars(`http://192.168.1.15/jjm/API/public/api/Cars/Search/${query}`);
+            fetchCars(`/api/Cars/Search/${query}`);
         }
     };
 
@@ -55,7 +55,7 @@ const useFetchCarsHook = (initialPage) => {
     }, [page]);
 
     useEffect(() => {
-        const filter = `http://192.168.1.15/jjm/API/public/api/Cars?brand=${brandsFilter.join(',')}`;
+        const filter = `/api/Cars?brand=${brandsFilter.join(',')}`;
         fetchCars(filter);
     }, [brandsFilter]);
 
