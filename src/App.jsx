@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import 'primeicons/primeicons.css';
 import StoreLayout from "./StoreLayout";
 import Store from "./store/Store";
@@ -7,7 +7,10 @@ import Home from "./store/Home";
 import AdminLayout from "./AdminLayout";
 import Login from "./admin/Login";
 import CarsForm from "./admin/CarsForm";
+import { useContext } from "react";
+import { AppContext } from "./AppContext";
 function App() {
+  const { admin } = useContext(AppContext)
   return (
     <Router>
       <Switch>
@@ -16,21 +19,25 @@ function App() {
           <Login></Login>
         </Route>
         {/* ADMIN */}
-        <Route path="/Admin">
-          <AdminLayout>
-            <Route path="/Admin/Dashboard">
-            </Route>
-            <Route path="/Admin/Car/View">
-              <Store pathParent="/Admin/Car/Edit/"></Store>
-            </Route>
-            <Route path="/Admin/Car/Add">
-              <CarsForm></CarsForm>
-            </Route>
-            <Route path="/Admin/Car/Edit/:id">
 
-            </Route>
-          </AdminLayout>
-        </Route>
+        {admin ?
+          (<Route path="/Admin">
+            <AdminLayout>
+              <Route path="/Admin/Dashboard">
+              </Route>
+              <Route path="/Admin/Car/View">
+                <Store pathParent="/Admin/Car/Edit/"></Store>
+              </Route>
+              <Route path="/Admin/Car/Add">
+                <CarsForm></CarsForm>
+              </Route>
+              <Route path="/Admin/Car/Edit/:id">
+
+              </Route>
+            </AdminLayout>
+          </Route>) : (<Redirect to="/login" />)
+        }
+
         {/* STORE */}
         <StoreLayout>
           <Route exact path="/">
