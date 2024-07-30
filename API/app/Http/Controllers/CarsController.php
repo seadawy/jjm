@@ -36,14 +36,14 @@ class CarsController extends Controller
     public function store(Request $request)
     {
         try {
-
-            $request->validate([
-                'model' => 'required|string|max:255',
+            $newCar =  $request->validate([
+                "model" => 'required|string',
                 'price' => 'required|numeric',
-                'brand' => 'required|exists:brands,id',
+                'brand_id' => 'required|exists:brands,id',
                 'link' => 'required|string',
                 'files.*' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
             ]);
+
             $imagePaths = [];
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
@@ -51,20 +51,18 @@ class CarsController extends Controller
                     $imagePaths[] = $path;
                 }
             }
-            $car = new Cars();
-            $car->model = $request->input('model');
-            $car->price = $request->input('price');
-            $car->brand_id = $request->input('brand');
-            $car->imgArray = json_encode($imagePaths);
-            $car->save();
+
+            $newCar["imgArray"] = json_encode($imagePaths);
+            $car = Cars::create($newCar);
 
             $download = new Downloads();
             $download->car_id = $car->id;
             $download->link = Crypt::encryptString($request->input('link'));
             $download->save();
+
             return response()->json([
                 'message' => 'Car added successfully!',
-                'link' => 'Link has been crypted successfully!',
+                'link' => 'Link has been encrypted successfully!',
                 'car' => $car
             ], 201);
         } catch (\Exception $th) {

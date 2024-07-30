@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 const NavLinksCompoenet = ({ children }) => {
     const [darkMode, setDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('theme');
@@ -22,7 +22,7 @@ const NavLinksCompoenet = ({ children }) => {
     const LinkStyle = "flex items-center gap-x-3 px-5 py-3 rounded hover:shadow-md hover:bg-[#77d030] dark:hover:bg-[#366330]";
     return (
         <>
-            <nav className="flex flex-col md:flex-row justify-between items-center p-2 shadow-lg" id="StoreNavBar">
+            <nav className="fixed w-full top-0 z-20 flex flex-col md:flex-row justify-between items-center p-2 shadow-lg" id="StoreNavBar">
                 <div className='flex justify-between sm:justify-center md:justify-between items-center w-full'>
                     <div className="md:ms-12 p-2">
                         <Link to="/">
@@ -43,11 +43,11 @@ const NavLinksCompoenet = ({ children }) => {
                     <div className='md:me-10 flex gap-4 mx-4 my-2 sm:m-0'>
                         <button
                             onClick={() => setDarkMode(!darkMode)}
-                            className={`${LinkStyle} border-2`}
+                            className={`${LinkStyle}`}
                         >
                             {darkMode ? '🌜' : '🌞'}
                         </button>
-                        <a className={`${LinkStyle} border-2`} href='https://discord.com/invite/7XkQjJY8pG' target='_blank' rel="noopener noreferrer">
+                        <a className={`${LinkStyle}`} href='https://discord.com/invite/7XkQjJY8pG' target='_blank' rel="noopener noreferrer">
                             <i className='pi pi-discord'></i>
                         </a>
                     </div>

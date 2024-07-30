@@ -1,17 +1,25 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavbarComponent from '../shared/NavbarComponent';
 import { AppContext } from '../AppContext';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
-    const { setToken, setAdmin } = useContext(AppContext);
-    const navigate = useHistory();
+    const { setToken, setAdmin, tokenState, adminState } = useContext(AppContext);
+    const history = useHistory();
     const [dataForm, setDataForm] = useState({
         email: "",
         password: ""
     });
     const [error, setError] = useState();
-
+    useEffect(() => {
+        if (tokenState && adminState) {
+            history.replace('/Admin/Dashboard', {
+                state: {
+                    message: 'Welcome Back',
+                },
+            });
+        }
+    }, [tokenState, adminState])
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -24,11 +32,8 @@ const Login = () => {
             if (data.error) {
                 setError(data.error);
             } else {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('admin', JSON.stringify(data.user)); // Save admin data
                 setToken(data.token);
                 setAdmin(data.user);
-                navigate.push('/Admin/Dashboard');
             }
         } catch (error) {
             console.log('Something went wrong while fetching: ' + error);
@@ -41,7 +46,7 @@ const Login = () => {
                 <NavbarComponent />
             </header>
             <main className='h-screen heroLogin w-screen flex fixed justify-center'>
-                <div className='sm:w-fit w-full h-fit mx-4 p-4 sm:mx-auto sm:p-14 sm:mt-8 sm:border rounded-md sm:bg-[#9c9c939a] dark:sm:bg-[#6f6c6cb1] sm:shadow-2xl'>
+                <div className='sm:w-fit w-full mt-40 h-fit mx-4 p-4 sm:mx-auto sm:p-14  sm:border rounded-md sm:bg-[#9c9c939a] dark:sm:bg-[#6f6c6cb1] sm:shadow-2xl'>
                     <form className='flex flex-col gap-2 justify-center' onSubmit={handleSubmit}>
                         <center>
                             <img src="/jjmlogo.png" className='my-5' width="150" alt="logo" />

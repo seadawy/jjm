@@ -16,9 +16,9 @@ const CarsEdit = () => {
     const [notifiType, setNotifiType] = useState();
     const [notifi, setNotifi] = useState();
     const { id } = useParams();
-    const flink = `/api/Cars/${id}`;
+    const flink = `/api/cars/${id}`;
     useEffect(() => {
-        fetch('/api/Brands')
+        fetch('/api/brands')
             .then((res) => res.json())
             .then((data) => {
                 setBrand(data);

@@ -7,10 +7,11 @@ import Home from "./store/Home";
 import AdminLayout from "./AdminLayout";
 import Login from "./admin/Login";
 import CarsForm from "./admin/CarsForm";
+import Dashboard from "./admin/Dashboard";
 import { useContext } from "react";
 import { AppContext } from "./AppContext";
 function App() {
-  const { admin } = useContext(AppContext)
+  const { adminState, tokenState } = useContext(AppContext)
   return (
     <Router>
       <Switch>
@@ -19,11 +20,11 @@ function App() {
           <Login></Login>
         </Route>
         {/* ADMIN */}
-
-        {admin ?
-          (<Route path="/Admin">
-            <AdminLayout>
+        <Route path="/Admin">
+          {adminState && tokenState ?
+            (<AdminLayout>
               <Route path="/Admin/Dashboard">
+                <Dashboard></Dashboard>
               </Route>
               <Route path="/Admin/Car/View">
                 <Store pathParent="/Admin/Car/Edit/"></Store>
@@ -32,12 +33,10 @@ function App() {
                 <CarsForm></CarsForm>
               </Route>
               <Route path="/Admin/Car/Edit/:id">
-
               </Route>
             </AdminLayout>
-          </Route>) : (<Redirect to="/login" />)
-        }
-
+            ) : (<Redirect to="/login" />)}
+        </Route>
         {/* STORE */}
         <StoreLayout>
           <Route exact path="/">
@@ -54,7 +53,7 @@ function App() {
           </Route>
         </StoreLayout>
       </Switch>
-    </Router>
+    </Router >
   );
 }
 

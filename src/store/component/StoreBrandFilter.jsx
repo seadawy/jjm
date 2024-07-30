@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const StoreBrandFilter = ({ fetchFilter }) => {
     const [values, setValues] = useState([]);
     useEffect(() => {
-        fetch('/api/Brands')
+        fetch('/api/brands')
             .then(response => response.json())
             .then(data => {
                 setValues(data);

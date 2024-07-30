@@ -11,7 +11,7 @@ const CarImage = ({ src, alt }) => {
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
             {isLoading && <Skeleton height="100%"></Skeleton>}
             <img
-                src={`/storage/${src}`}
+                src={`/API/public/storage/${src}`}
                 alt={alt}
                 className={`h-full w-full object-cover object-center lg:h-full lg:w-full ${isLoading ? 'hidden' : 'block'}`}
                 onLoad={handleImageLoad}

@@ -19,7 +19,7 @@ const sortOptions = [
 ];
 
 export default function Store({ pathParent = "/Store/Car/" }) {
-    const initialPage = '/api/Cars';
+    const initialPage = '/api/cars';
     const {
         cars,
         isLoading,

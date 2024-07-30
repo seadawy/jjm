@@ -16,17 +16,20 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Car Contolling
-
+    Route::post('cars', [CarsController::class, 'store']);
+    Route::put('cars/{id}', [CarsController::class, 'update']);
+    Route::delete('cars/{id}', [CarsController::class, 'destroy']);
 });
 
 
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::apiResource('Brands', BrandController::class);
+Route::apiResource('brands', BrandController::class);
 
-Route::apiResource('Cars', CarsController::class);
-Route::get('Cars/Search/{query}', [CarsController::class, 'search']);
+Route::get('cars', [CarsController::class, 'index']);
+Route::get('cars/{id}', [CarsController::class, 'show']);
+Route::get('cars/Search/{query}', [CarsController::class, 'search']);
 
 
 Route::post('/create-paypal-order', [PaypalController::class, 'createOrder']);

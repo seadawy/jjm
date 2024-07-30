@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink } from "react-router-dom";
 const Sidebar = () => {
     const linkStyle = `bg-green-200 mx-3 p-4 text-xl rounded flex gap-4 items-center shadow-md hover:bg-green-300 group`;
     const iconStyle = `text-violet-800 bg-[#2d2d2d29] p-2 rounded-full group-hover:bg-[#254c17a0] group-hover:text-white`;

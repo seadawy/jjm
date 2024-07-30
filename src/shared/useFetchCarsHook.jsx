@@ -32,7 +32,7 @@ const useFetchCarsHook = (initialPage) => {
         if (query === '') {
             fetchCars(page);
         } else {
-            fetchCars(`/api/Cars/Search/${query}`);
+            fetchCars(`/api/cars/Search/${query}`);
         }
     };
 
@@ -55,7 +55,7 @@ const useFetchCarsHook = (initialPage) => {
     }, [page]);
 
     useEffect(() => {
-        const filter = `/api/Cars?brand=${brandsFilter.join(',')}`;
+        const filter = `/api/cars?brand=${brandsFilter.join(',')}`;
         fetchCars(filter);
     }, [brandsFilter]);
 

@@ -1,168 +1,110 @@
-import React, { useState, useEffect, useCallback } from "react";
-import Dropzone from 'react-dropzone';
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { AppContext } from "../AppContext";
 
-const CarsForm = () => {
-    const labelcss = 'dark:text-white text-xl font-medium ms-1';
-    const [brand, setBrand] = useState([]);
+const CarForm = () => {
+    // token 
+    const { token } = useContext(AppContext);
+
     const [model, setModel] = useState('');
     const [price, setPrice] = useState('');
     const [selectedBrand, setSelectedBrand] = useState('');
     const [files, setFiles] = useState([]);
-
-    useEffect(() => {
-        fetch('/api/Brands')
-            .then((res) => res.json())
-            .then((data) => {
-                setBrand(data);
-            })
-            .catch((err) => { console.error(err); });
-    }, []);
+    const [link, setLink] = useState('');
 
     const onDrop = useCallback((acceptedFiles) => {
-        acceptedFiles.forEach((file) => {
-            setFiles((old) => [
-                ...old, {
-                    name: file.name,
-                    url: URL.createObjectURL(file),
-                    file: file
-                }
-            ]);
-        });
+        setFiles(prevFiles => [
+            ...prevFiles,
+            ...acceptedFiles
+        ]);
     }, []);
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
-    const reset = () => {
-        setFiles([]);
-        setModel('');
-        setPrice('');
-        setSelectedBrand('');
+    const [brands, setBrands] = useState();
+    useEffect(() => {
+        fetch(`/api/brands`).then(res => res.json()).then(data => setBrands(data)).catch(err => console.error(err));
+    }, [])
+
+    const fileDelHandeling = (index) => {
+        setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
     }
-
-    const delImage = (idx) => {
-        setFiles(files.filter((_, i) => i !== idx));
-    }
-
-    const handleSubmit = async (e) => {
+    const formSubmitHandeling = (e) => {
         e.preventDefault();
-
-        const formData = new FormData();
-        formData.append('model', model);
-        formData.append('price', price);
-        formData.append('brand', selectedBrand);
-        files.forEach((file) => {
-            formData.append('files[]', file.file);
+        const dataForm = new FormData();
+        dataForm.append("model", model);
+        dataForm.append("price", price);
+        dataForm.append("brand_id", selectedBrand);
+        dataForm.append("link", link);
+        files.forEach((file, index) => {
+            dataForm.append(`files[${index}]`, file);
         });
-
-        try {
-            const response = await fetch('/api/Cars', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Car added successfully:', data);
-                reset();
-            } else {
-                console.error('Error uploading data');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        console.log(token);
+        fetch(`/api/cars`, {
+            method: "post",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': "application/json"
+            },
+            body: dataForm
+        }).then(res => res.json()).then((data) => {
+            console.log(data);
+        }).catch(err => console.log(err, "during saving car"));
     }
-
     return (
         <>
-            <div className="mb-5 border-b-2 pb-2">
-            <h2 className="dark:text-white font-medium text-5xl mb-3">Add Car</h2>
-            <h3 className="text-gray-400 font-medium">Admin/Cars/<span className="font-bold">Add</span></h3>
-            </div>
-            <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-                <div className="flex gap-5">
-                    <div className="flex flex-col gap-2 w-4/5">
-                        <label htmlFor="model" className={labelcss}>Model</label>
-                        <input
-                            type="text"
-                            className="form-input rounded shadow"
-                            id="model"
-                            value={model}
-                            onChange={(e) => setModel(e.target.value)}
-                            required
-                        />
+            <form onSubmit={(e) => formSubmitHandeling(e)}>
+                <div className="flex gap-6">
+                    <div className="w-8/12 flex flex-col">
+                        <label htmlFor="model" className="dark:text-white font-bold text-2xl">Model</label>
+                        <input type="text" name="model" id="model" className="rounded py-3 shadow-md mt-1" value={model} onChange={(e) => setModel(e.target.value)} />
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="price" className={labelcss}>Price</label>
-                        <input
-                            type="number"
-                            className="form-input rounded shadow"
-                            placeholder="$$$"
-                            id="price"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            required
-                        />
+                    <div className="w-4/12 flex flex-col">
+                        <label htmlFor="price" className="dark:text-white font-bold text-2xl">Price</label>
+                        <input type="number" name="price" id="price" placeholder="$$$" className="rounded py-3  shadow-md mt-1" value={price} onChange={(e) => setPrice(e.target.value)} />
                     </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="brand" className={labelcss}>Brand</label>
-                    <select
-                        className="form-input rounded shadow"
-                        value={selectedBrand}
-                        onChange={(e) => setSelectedBrand(e.target.value)}
-                        required
-                    >
-                        <option disabled value="">Select Brand</option>
-                        {brand && brand.map((brand) => (
-                            <option value={brand.id} key={brand.id}>{brand.brand}</option>
+                <div className="flex flex-col w-full mt-6">
+                    <label htmlFor="brand" className="dark:text-white font-bold text-2xl">Brand</label>
+                    <select name="brand" id="brand" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)} className="rounded py-3 shadow-md mt-1">
+                        <option value="">Select Brand</option>
+                        {brands && brands.map((brand) => (
+                            <option key={brand.id} value={brand.id}>{brand.brand}</option>
                         ))}
                     </select>
                 </div>
-                <div className="col-span-full">
-                    <label htmlFor="cover-photo" className={labelcss}>
-                        Car Photos
-                    </label>
-                    <Dropzone onDrop={onDrop}>
-                        {({ getRootProps, getInputProps }) => (
-                            <div className="my-3 flex flex-col">
-                                <label htmlFor="file-upload"
-                                    className="relative cursor-pointer rounded-md bg-transparent font-semibold
-                                    text-indigo-600 focus-within:outline-none focus-within:ring-2 bg-white
-                                    p-2 hover:bg-slate-400 hover:text-white duration-75"
-                                >
-                                    <i className="pi pi-upload mx-3 font-black"></i>
-                                    <span className="dark:text-purple-900">Browse and upload files</span>
-                                    <input id="file-upload" name="file-upload" type="file" {...getInputProps()} className="sr-only hidden" multiple />
-                                </label>
-                                <div {...getRootProps()} className="mt-2 flex justify-center shadow-md rounded-lg border border-dashed
-                                border-gray-900/25 dashed dark:border-white/50 px-6 py-10">
-                                    <div className="text-center">
-                                        <i className="mx-auto text-5xl text-gray-300 pi pi-image"></i>
-                                        <p className="pl-1 dark:text-gray-400 text-center">drag and drop</p>
-                                        <p className="text-xs leading-5 text-gray-600 dark:text-gray-400">PNG, JPG, WEBP up to 5MB</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </Dropzone>
-                    <div className="flex gap-3 flex-wrap dark:bg-slate-700 p-3 rounded shadow-md">
-                        {files.length == 0 ? (<h1 className="text-center dark:text-white"> images required</h1>) : ""}
-                        {files.map((img, index) => (
-                            <div key={index} className="relative">
-                                <button onClick={() => delImage(index)} type="button"
-                                    className="bg-red-600 rounded right-0 hover:w-full hover:h-full transition-all duration-500 ease-in-out text-white px-1 absolute font-bold">
-                                    <i className="pi pi-times"></i>
-                                </button>
-                                <img src={img.url} alt={img.name} className="rounded shadow" width="114" height="10" />
-                            </div>
-                        ))}
+                <div className={`border-8 border-dashed flex justify-center mt-8 rounded flex-col ${isDragActive ? "border-indigo-600" : "dark:border-white border-gray-400"}`}>
+                    <div {...getRootProps()} className="p-16 outline-none ">
+                        <input {...getInputProps()} />
+                        <p className="text-center text-gray-500"><i className="pi pi-images text-8xl mb-5"></i></p>
+                        {
+                            isDragActive ?
+                                <p className="text-gray-400 text-center font-semibold text-2xl">Drop the files here ...</p> :
+                                <p className="text-gray-400 text-center font-semibold text-2xl">Drag drop some files here, or click to select files</p>
+                        }
                     </div>
                 </div>
-                <div className="flex gap-5 mt-2 justify-end">
-                    <input type="reset" onClick={reset} className="text-white bg-red-500 px-3 py-2 rounded shadow-md hover:bg-red-600" />
-                    <input type="submit" className="text-white bg-indigo-600 px-5 py-2 rounded shadow-md hover:bg-indigo-500" />
+                <br />
+                <div className="dark:bg-slate-600 p-3 flex flex-row overflow-hidden gap-4 flex-wrap items-center rounded">
+                    {
+                        files.length ? files.map((file, index) => (
+                            <div key={index} className="relative">
+                                <button type="button" className="bg-red-500 px-2 py-1 rounded-full absolute -top-1 -right-3" onClick={() => fileDelHandeling(index)}><i className="text-white pi pi-trash"></i></button>
+                                <img src={URL.createObjectURL(file)} className="w-36 h-28 rounded-md" alt="hello" />
+                            </div>
+                        )) : (<p className="dark:text-white font-semibold text-lg">No files Selected</p>)
+                    }
                 </div>
-            </form >
+                <div className="flex flex-col w-full mt-6">
+                    <label htmlFor="link" className="dark:text-white font-bold text-2xl">Download Link</label>
+                    <input name="link" id="link" value={link} onChange={(e) => setLink(e.target.value)} className="rounded py-3 shadow-md mt-1" />
+                </div>
+
+                <button type="submit" className="bg-indigo-700 px-12 py-3 mt-5 float-end rounded shadow text-white text-2xl">
+                    Save Car
+                </button>
+            </form>
         </>
     );
 }
 
-export default CarsForm;
+export default CarForm;

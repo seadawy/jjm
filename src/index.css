@@ -43,3 +43,27 @@ nav {
 .brandLink:hover {
     background: radial-gradient(circle, #844fb300 0%, #73d82ac7 100%) !important;
 }
+
+/* nw */
+.section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section:nth-child(odd) {
+    background-color: #f2f2f2;
+    /* Alternating background color */
+}
+
+.section:nth-child(even) {
+    background-color: #cccccc;
+    /* Alternating background color */
+}
+
+.scroll-container {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+}

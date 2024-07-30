@@ -17,7 +17,7 @@ const CarDetails = () => {
         setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     };
     useEffect(() => {
-        fetch(`/api/Cars/${id}`)
+        fetch(`/api/cars/${id}`)
             .then((res) => { return res.json() })
             .then((data) => {
                 setCar(data[0]);
@@ -31,7 +31,7 @@ const CarDetails = () => {
                     <div className="flex flex-col gap-2 sm:flex-row">
                         <div className="relative flex-1">
                             <img
-                                src={`/storage/${images[currentIndex]}`}
+                                src={`/API/public/storage/${images[currentIndex]}`}
                                 alt="Selected"
                                 className="w-full sm:h-[550px] h-60 object-cover rounded-md"
                             />
@@ -52,7 +52,7 @@ const CarDetails = () => {
                             {images.map((image, index) => (
                                 <img
                                     key={index}
-                                    src={`/storage/${image}`}
+                                    src={`/API/public/storage/${image}`}
                                     alt={`Thumbnail ${index + 1}`}
                                     className={`rounded-lg cursor-pointer w-24 h-24 object-cover border-4 ${currentIndex === index ? 'border-purple-400' : 'border-transparent'
                                         }`}

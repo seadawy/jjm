@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.42",
     "@headlessui/react": "^2.0.4",
     "@paypal/react-paypal-js": "^8.5.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -23,9 +24,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
+    "react-fullpage": "^0.1.19",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
+    "react-scroll-snap": "^1.0.0",
     "react-top-loading-bar": "^2.3.1",
+    "react-use-scroll-snap": "^1.0.0",
+    "scroll-snap": "^4.0.5",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
