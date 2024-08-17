@@ -1,19 +1,17 @@
-import { Button } from 'primereact/button';
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import useScrollSnap from "react-use-scroll-snap";
 
 const Home = () => {
-    const scrollRef = useRef(null);
-    useScrollSnap({ ref: scrollRef, duration: 100, delay: 20 });
     return (
-        <div ref={scrollRef}>
+        <div>
             {/* Discord Hero */}
             <div className="DiscordHero surface-0 text-700 text-center p-18 py-72 bg-[url('/img/hero.png')] hover:bg-[url('/img/hero-on.png')] bg-fixed bg-cover bg-center bg-no-repeat">
-                <div className="text-900 font-bold text-5xl mb-3 text-white">Join Our Community</div>
+                <div className="text-900 font-bold text-5xl mb-5 text-white">Join Our Community</div>
                 <div className="text-700 text-2xl mb-5"></div>
-                <Button label="Join Now" icon="pi pi-discord" className="bg-blue-400 text-white font-bold px-5 py-3 
-                p-button-raised rounded-full space-x-4 dark:hover:bg-purple-900 hover:bg-purple-300" />
+                <a className="bg-blue-400 text-white font-bold px-5 py-3
+                p-button-raised rounded-full space-x-4 dark:hover:bg-purple-900 hover:bg-purple-300" href='https://discord.gg/7XkQjJY8pG' target='_blank'>
+                    <i className="pi pi-discord me-5"></i>
+                    Join Now
+                </a>
                 <br />
             </div>
             {/* Statics */}
@@ -23,15 +21,15 @@ const Home = () => {
                     <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3 dark:text-white">
                         <div className="border-dashed border-4 border-slate-800 py-6 px-20 shadow-2xl rounded-md mx-auto flex max-w-xs flex-col gap-y-4 hover:bg-slate-800 hover:text-white group">
                             <dt className="font-mono leading-7 text-gray-600 dark:text-white group-hover:text-white">Successful Sale</dt>
-                            <dd className="order-first text-3xl font-semibold dark:text-white tracking-tight text-gray-900 dark:group-hover:text-white sm:text-7xl">2k</dd>
+                            <dd className="order-first text-3xl font-semibold dark:text-white tracking-tight text-gray-900 group-hover:text-indigo-600 dark:group-hover:text-white sm:text-7xl">2k</dd>
                         </div>
                         <div className="border-dashed border-4 border-slate-800 py-6 px-20 shadow-2xl rounded-md mx-auto flex max-w-xs flex-col gap-y-4 hover:bg-slate-800 hover:text-white group">
                             <dt className="font-mono leading-7 text-gray-600 dark:text-white group-hover:text-white">Car Avaliable</dt>
-                            <dd className="order-first text-3xl font-semibold dark:text-white  tracking-tight text-gray-900 dark:group-hover:text-white sm:text-7xl">200</dd>
+                            <dd className="order-first text-3xl font-semibold dark:text-white  tracking-tight text-gray-900 group-hover:text-indigo-600 dark:group-hover:text-white sm:text-7xl">200</dd>
                         </div>
                         <div className="border-dashed border-4 border-slate-800 py-6 px-20 shadow-2xl rounded-md mx-auto flex max-w-xs flex-col gap-y-4 hover:bg-slate-800 hover:text-white group">
-                            <dt className="font-mono leading-7 text-gray-600 dark:text-white group-hover:text-white">Brand Avaliable</dt>
-                            <dd className="order-first text-3xl font-semibold dark:text-white tracking-tight text-gray-900 dark:group-hover:text-white sm:text-7xl">12</dd>
+                            <dt className="font-mono leading-7 text-gray-600 dark:text-white group-hover:text-white">Brands Avaliable</dt>
+                            <dd className="order-first text-3xl font-semibold dark:text-white tracking-tight text-gray-900 group-hover:text-indigo-600 dark:group-hover:text-white sm:text-7xl">12</dd>
                         </div>
                     </dl>
                 </div>
@@ -81,7 +79,9 @@ const Home = () => {
             </div>
             <div className='text-center flex sm:flex-row flex-col justify-between gap-2 dark:text-gray-400 p-6 font-sans font-bold px-5 '>
                 <p >Copyright © 2024 JJM Mods - All Rights Reserved.</p>
-                <p className='sm:me-14'>Additional Support In Discord</p>
+                <p >Additional Support In <a href="https://discord.gg/7XkQjJY8pG" className='border-b-2 border-indigo-950 px-1 hover:text-indigo-400' target='_blank'>
+                    <i className='pi pi-discord'></i> Discord</a>
+                </p>
             </div>
         </div>
     );

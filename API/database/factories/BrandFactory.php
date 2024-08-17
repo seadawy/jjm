@@ -19,7 +19,6 @@ class BrandFactory extends Factory
     {
         return [
             'brand' => $this->faker->company,
-            'brand_img' => $this->faker->imageUrl(640, 480, 'business', true),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -6,7 +6,7 @@ const Dashboard = () => {
                 role="alert"
             >
                 <p className="font-bold">Hello there</p>
-                <p>Something not ideal might be happening.</p>
+                <p>in v2 insha allah.</p>
             </div>
         </>
     );

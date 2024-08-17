@@ -21,7 +21,13 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->validate(['brand' => "required"]);
+            Brand::create($data);
+            return response()->json("Brand added successfully", 200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => $e->getMessage()], 500);
+        }
     }
 
     /**

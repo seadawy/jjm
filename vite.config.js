@@ -7,12 +7,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost/jjm/API/public/',
+        target: 'https://api.jjmmods.store',
         changeOrigin: true,
+        secure: false,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
         headers: {
           "Accept": 'application/json',
         }
       }
     }
   }
-})
+});

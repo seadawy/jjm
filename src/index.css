@@ -7,8 +7,18 @@
 }
 
 #StoreNavBar a.active {
-    background: radial-gradient(circle, #844fb300 0%, #73d82ac7 100%);
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 8px;
+    background:  #62b527c7;
+    box-shadow: rgba(0, 0, 0, 0.216) 0px 4px 8px;
+}
+
+#SideBar a.active {
+    color: white;
+    background-color: rgb(118, 162, 83);
+}
+
+#SideBar a.active i {
+    color: white;
+    background-color: #254c17a0;
 }
 
 nav {
@@ -66,4 +76,8 @@ nav {
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     height: 100vh;
+}
+
+.rdt_Pagination{
+    background-color: white !important;
 }

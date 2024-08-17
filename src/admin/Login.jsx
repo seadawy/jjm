@@ -19,11 +19,12 @@ const Login = () => {
                 },
             });
         }
-    }, [tokenState, adminState])
+    }, [tokenState, adminState]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('https://api.jjmmods.store/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dataForm)

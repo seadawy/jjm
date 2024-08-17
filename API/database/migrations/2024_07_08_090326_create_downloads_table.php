@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('downloads', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('car_id')->constrained('cars','id');
             $table->text('link');
             $table->timestamps();

@@ -32,7 +32,7 @@ const useFetchCarsHook = (initialPage) => {
         if (query === '') {
             fetchCars(page);
         } else {
-            fetchCars(`/api/cars/Search/${query}`);
+            fetchCars(`https://api.jjmmods.store/api/cars/Search/${query}`);
         }
     };
 
@@ -55,7 +55,7 @@ const useFetchCarsHook = (initialPage) => {
     }, [page]);
 
     useEffect(() => {
-        const filter = `/api/cars?brand=${brandsFilter.join(',')}`;
+        const filter = `https://api.jjmmods.store/api/cars?brand=${brandsFilter.join(',')}`;
         fetchCars(filter);
     }, [brandsFilter]);
 

@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const StoreBrandFilter = ({ fetchFilter }) => {
     const [values, setValues] = useState([]);
     useEffect(() => {
-        fetch('/api/brands')
+        fetch('https://api.jjmmods.store/api/brands')
             .then(response => response.json())
             .then(data => {
                 setValues(data);
@@ -16,7 +16,7 @@ const StoreBrandFilter = ({ fetchFilter }) => {
             .catch(error => console.error('Error fetching brands:', error));
     }, [])
     return (
-        <Disclosure as="div" className="shadow-md rounded-md bg-gray-100 dark:bg-slate-700 border-gray-200 px-4 py-6 sticky top-3" defaultOpen={true}>
+        <Disclosure as="div" className="shadow-md rounded-md bg-gray-100 dark:bg-slate-700 border-gray-200 px-4 py-6 sticky top-32" defaultOpen={true}>
             {({ open }) => (
                 <>
                     <h3 className="-mx-2 -my-3 flow-root">

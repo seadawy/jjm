@@ -12,39 +12,17 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $orders = Orders::with("carDetails.brand")->orderBy("id", "desc")->get();
+        return response()->json($orders, 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Orders $orders)
+    public function show($order)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Orders $orders)
-    {
-        //
+        $orderDetails = Orders::with("carDetails.brand")->where("paypal_transaction_id", $order)->first();
+        return response()->json($orderDetails, 200);
     }
 
     /**

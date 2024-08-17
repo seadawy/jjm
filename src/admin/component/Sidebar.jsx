@@ -4,10 +4,14 @@ const Sidebar = () => {
     const iconStyle = `text-violet-800 bg-[#2d2d2d29] p-2 rounded-full group-hover:bg-[#254c17a0] group-hover:text-white`;
     return (
         <>
-            <div className="bg-gray-100 shadow-md dark:bg-slate-700 gap-3 h-screen flex flex-col pt-5">
+            <div className="bg-gray-100 shadow-md dark:bg-slate-700 gap-3 h-screen flex flex-col pt-5" id="SideBar">
                 <NavLink to="/Admin/Dashboard" className={linkStyle}>
                     <i className={`pi pi-compass ${iconStyle}`} ></i>
                     Dashboard
+                </NavLink>
+                <NavLink to="/Admin/Orders" className={linkStyle}>
+                    <i className={`pi pi-receipt ${iconStyle}`}></i>
+                    Orders
                 </NavLink>
                 <NavLink to="/Admin/Car/View" className={linkStyle}>
                     <i className={`pi pi-car ${iconStyle}`}></i>
@@ -16,6 +20,10 @@ const Sidebar = () => {
                 <NavLink to="/Admin/Car/Add" className={linkStyle}>
                     <i className={`pi pi-plus ${iconStyle}`}></i>
                     Add Cars
+                </NavLink>
+                <NavLink to="/Admin/Brand" className={linkStyle}>
+                    <i className={`pi pi-filter ${iconStyle}`}></i>
+                    Brands
                 </NavLink>
             </div >
         </>

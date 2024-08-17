@@ -6,10 +6,14 @@ import CarDetails from "./store/CarDetails";
 import Home from "./store/Home";
 import AdminLayout from "./AdminLayout";
 import Login from "./admin/Login";
-import CarsForm from "./admin/CarsForm";
+import CarAdd from "./admin/CarAdd";
 import Dashboard from "./admin/Dashboard";
+import OrederManage from "./admin/OrederManage"
 import { useContext } from "react";
 import { AppContext } from "./AppContext";
+import BrandManage from "./admin/BrandManage";
+import Checkout from "./store/Checkout";
+import Partner from "./store/Partner";
 function App() {
   const { adminState, tokenState } = useContext(AppContext)
   return (
@@ -27,12 +31,18 @@ function App() {
                 <Dashboard></Dashboard>
               </Route>
               <Route path="/Admin/Car/View">
-                <Store pathParent="/Admin/Car/Edit/"></Store>
+                <Store pathParent="/Store/Car/"></Store>
               </Route>
               <Route path="/Admin/Car/Add">
-                <CarsForm></CarsForm>
+                <CarAdd></CarAdd>
               </Route>
-              <Route path="/Admin/Car/Edit/:id">
+              <Route path="/Admin/Car/:id">
+              </Route>
+              <Route path="/Admin/Brand">
+                <BrandManage></BrandManage>
+              </Route>
+              <Route path="/Admin/Orders">
+                <OrederManage></OrederManage>
               </Route>
             </AdminLayout>
             ) : (<Redirect to="/login" />)}
@@ -48,8 +58,14 @@ function App() {
           <Route path="/Store/Brand/:id">
             <Store></Store>
           </Route>
+          <Route path="/checkout/:orderID">
+            <Checkout></Checkout>
+          </Route>
           <Route path="/Store/Car/:id">
             <CarDetails></CarDetails>
+          </Route>
+          <Route path="/Partner">
+            <Partner></Partner>
           </Route>
         </StoreLayout>
       </Switch>

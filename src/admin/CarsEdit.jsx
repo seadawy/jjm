@@ -16,9 +16,9 @@ const CarsEdit = () => {
     const [notifiType, setNotifiType] = useState();
     const [notifi, setNotifi] = useState();
     const { id } = useParams();
-    const flink = `/api/cars/${id}`;
+    const flink = `https://api.jjmmods.store/api/cars/${id}`;
     useEffect(() => {
-        fetch('/api/brands')
+        fetch('https://api.jjmmods.store/api/brands')
             .then((res) => res.json())
             .then((data) => {
                 setBrand(data);
@@ -184,7 +184,7 @@ const CarsEdit = () => {
                                     className="bg-red-600 rounded right-0 hover:w-full hover:h-full transition-all duration-500 ease-in-out text-white px-1 absolute font-bold">
                                     <i className="pi pi-times"></i>
                                 </button>
-                                <img src={`/storage/${img}`} alt={img.name} className="rounded shadow" width="114" height="10" />
+                                <img src={`https://api.jjmmods.store/laravel/storage/app/public/${img}`} alt={img.name} className="rounded shadow" width="114" height="10" />
                             </div>
                         ))}
                     </div>

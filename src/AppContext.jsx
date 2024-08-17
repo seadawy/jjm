@@ -11,7 +11,7 @@ export default function AppProvider({ children }) {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch('/api/user', {
+                const response = await fetch('https://api.jjmmods.store/api/user', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
